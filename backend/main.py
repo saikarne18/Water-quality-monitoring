@@ -10,6 +10,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
+from urllib.parse import urlparse
 
 # Load environment variables from .env file
 load_dotenv()
@@ -32,17 +33,32 @@ app.add_middleware(
 
 def get_connection():
     """
-    Get database connection using environment variables.
-    Falls back to local development settings if env vars not set.
+    Get database connection from DATABASE_URL or individual env variables.
+    Supports both formats for flexibility.
     """
-    return psycopg2.connect(
-        host=os.environ.get("DB_HOST", "localhost"),
-        port=os.environ.get("DB_PORT", "5432"),
-        database=os.environ.get("DB_NAME", "iot-test"),
-        user=os.environ.get("DB_USER", "postgres"),
-        password=os.environ.get("DB_PASSWORD", "postgres"),
-        sslmode=os.environ.get("DB_SSLMODE", "prefer")  # Use "require" for Aiven
-    )
+    database_url = os.environ.get("DATABASE_URL")
+    
+    if database_url:
+        # Parse DATABASE_URL (format: postgres://user:password@host:port/database)
+        parsed = urlparse(database_url)
+        return psycopg2.connect(
+            host=parsed.hostname,
+            port=parsed.port or 5432,
+            database=parsed.path.lstrip('/'),
+            user=parsed.username,
+            password=parsed.password,
+            sslmode="require"  # Aiven requires SSL
+        )
+    else:
+        # Fallback to individual environment variables for local development
+        return psycopg2.connect(
+            host=os.environ.get("DB_HOST", "localhost"),
+            port=os.environ.get("DB_PORT", "5432"),
+            database=os.environ.get("DB_NAME", "iot-test"),
+            user=os.environ.get("DB_USER", "postgres"),
+            password=os.environ.get("DB_PASSWORD", "postgres"),
+            sslmode=os.environ.get("DB_SSLMODE", "prefer")  # Use "require" for Aiven
+        )
 
 
 # ==============================

@@ -1,0 +1,347 @@
+/* ===== PREDICTION PAGE STYLES ===== */
+
+.prediction-page {
+  min-height: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.prediction-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.prediction-header {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: slideDown 0.6s ease-out;
+}
+
+.prediction-header h1 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.prediction-header p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card Styles */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.card h2 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  border-bottom: 3px solid var(--secondary-color);
+  padding-bottom: 10px;
+}
+
+/* Model Info Card */
+.model-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  border-left: 4px solid var(--secondary-color);
+}
+
+.info-item label {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.info-value {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.info-value.success {
+  color: var(--success-color);
+}
+
+/* Prediction Form */
+.prediction-form form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  align-items: end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(243, 146, 0, 0.1);
+}
+
+.form-group input:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Predict Button */
+.predict-button {
+  padding: 12px 30px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  grid-column: span 1;
+  min-height: 48px;
+}
+
+.predict-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(31, 58, 147, 0.3);
+}
+
+.predict-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.predict-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Error Message */
+.error-message {
+  grid-column: 1 / -1;
+  background-color: #fee;
+  color: #c33;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border-left: 4px solid var(--danger-color);
+  font-weight: 500;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* Results Section */
+.results-section {
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Prediction Result */
+.prediction-result {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e0f5ff 100%);
+  border-left: 6px solid var(--accent-color);
+}
+
+.prediction-display {
+  text-align: center;
+  padding: 20px;
+}
+
+.activity-label {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  text-transform: capitalize;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.confidence-text {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.confidence-value {
+  color: var(--success-color);
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+/* Confidence Chart Card */
+.confidence-chart-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.confidence-chart-card h2 {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Activity Classes */
+.activity-classes {
+  background: linear-gradient(135deg, #f9f5ff 0%, #f0e5ff 100%);
+}
+
+.classes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.activity-badge {
+  padding: 12px 18px;
+  background-color: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: #666;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.activity-badge.active {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(31, 58, 147, 0.3);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f0f5ff 0%, #e9f0ff 100%);
+  color: var(--primary-color);
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-left: 6px solid var(--accent-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .prediction-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .prediction-form form {
+    grid-template-columns: 1fr;
+  }
+
+  .predict-button {
+    width: 100%;
+  }
+
+  .model-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .classes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .prediction-display {
+    padding: 10px;
+  }
+
+  .activity-label {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .prediction-page {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 20px;
+    margin-bottom: 15px;
+  }
+
+  .card h2 {
+    font-size: 1.2rem;
+  }
+
+  .prediction-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .classes-grid {
+    grid-template-columns: 1fr;
+  }
+}
