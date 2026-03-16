@@ -27,6 +27,18 @@ app.add_middleware(
 )
 
 # ==============================
+# BASIC ROUTES
+# ==============================
+
+@app.get("/")
+def root():
+    return {"message": "IoT Water Monitoring API is running"}
+
+@app.get("/api/v1/health")
+def health():
+    return {"status": "healthy"}
+
+# ==============================
 # DATABASE CONNECTION
 # ==============================
 
