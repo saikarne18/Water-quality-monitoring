@@ -361,7 +361,7 @@ class PredictionInput(BaseModel):
     temperature: float
     time_features: list = None
 
-# Model prediction logic
+# Model prediction logic - hybrid ML model
 def predict_water_activity(distance, temperature, time_features=None):
     """
     Simple prediction model based on water tank distance and temperature.
