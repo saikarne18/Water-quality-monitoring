@@ -11,24 +11,27 @@ const Navbar = ({ onToggleSidebar }) => {
         </button>
         
         <div className="logo">
-          <svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="logo-svg">
-            <defs>
-              <linearGradient id="waterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style={{stopColor: '#FF6B9D', stopOpacity: 1}} />
-                <stop offset="33%" style={{stopColor: '#00D4FF', stopOpacity: 1}} />
-                <stop offset="66%" style={{stopColor: '#1DB584', stopOpacity: 1}} />
-                <stop offset="100%" style={{stopColor: '#FFA500', stopOpacity: 1}} />
-              </linearGradient>
-            </defs>
-            <circle cx="50" cy="50" r="48" fill="url(#waterGrad)" opacity="0.15" />
-            <circle cx="30" cy="25" r="6" fill="#FF6B9D" />
-            <circle cx="50" cy="15" r="7" fill="#00D4FF" />
-            <circle cx="70" cy="25" r="6" fill="#1DB584" />
-            <path d="M 20 40 Q 28 32 36 40 T 52 40 T 68 40 T 84 40" stroke="#FFA500" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-            <path d="M 18 55 Q 26 47 34 55 T 50 55 T 66 55 T 82 55" stroke="#00D4FF" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-            <path d="M 25 65 L 25 82 Q 25 88 31 88 L 69 88 Q 75 88 75 82 L 75 65" fill="none" stroke="#1DB584" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M 28 75 Q 32 70 36 75 T 44 75 T 52 75 T 60 75 T 68 75 L 68 82 Q 68 85 65 85 L 35 85 Q 32 85 32 82 L 32 75" fill="#00D4FF" opacity="0.6" />
-            <circle cx="40" cy="35" r="3" fill="white" opacity="0.8" />
+          <svg width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="logo-svg">
+            {/* Outer glow background */}
+            <circle cx="50" cy="50" r="48" fill="#FF6B9D" opacity="0.12" />
+            {/* Water droplet 1 - Pink */}
+            <circle cx="28" cy="28" r="8" fill="#FF6B9D" />
+            {/* Water droplet 2 - Cyan */}
+            <circle cx="50" cy="18" r="9" fill="#00D4FF" />
+            {/* Water droplet 3 - Green */}
+            <circle cx="72" cy="28" r="8" fill="#1DB584" />
+            {/* Wave 1 - Orange */}
+            <path d="M 18 45 Q 25 38 32 45 T 50 45 T 68 45 T 85 45" stroke="#FFA500" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            {/* Wave 2 - Cyan */}
+            <path d="M 15 58 Q 23 50 31 58 T 50 58 T 68 58 T 86 58" stroke="#00D4FF" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            {/* Water container */}
+            <rect x="24" y="68" width="52" height="20" rx="3" fill="#1DB584" opacity="0.9" />
+            {/* Water fill inside container */}
+            <rect x="26" y="74" width="48" height="12" rx="2" fill="#00D4FF" opacity="0.8" />
+            {/* Shine effect */}
+            <circle cx="42" cy="72" r="4" fill="white" opacity="0.7" />
+            {/* Center diamond accent */}
+            <path d="M 50 50 L 54 54 L 50 58 L 46 54 Z" fill="#FF6B9D" opacity="0.8" />
           </svg>
         </div>
       </div>
