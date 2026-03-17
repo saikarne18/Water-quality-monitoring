@@ -11,10 +11,7 @@ const Navbar = ({ onToggleSidebar }) => {
         </button>
         
         <div className="logo">
-          <svg width="40" height="40" viewBox="0 0 225 235" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="225" height="235" fill="#2BBF59"/>
-            <text x="112" y="170" fontFamily="Arial, sans-serif" fontSize="48" fontWeight="bold" fill="white" textAnchor="middle">HITAM</text>
-          </svg>
+          <img src="/image.png" alt="HITAM Logo" className="logo-img" />
         </div>
       </div>
       
