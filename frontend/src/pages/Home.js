@@ -253,6 +253,7 @@ const Home = () => {
     setCustomToDate(event.target.value);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Initial data fetch
     fetchNodes();
