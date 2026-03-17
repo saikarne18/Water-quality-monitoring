@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 
@@ -72,7 +72,7 @@ const Home = () => {
   };
 
   // Fetch real sensor data from API
-  const fetchSensorData = async () => {
+  const fetchSensorData = useCallback(async () => {
     try {
       setLoading(true);
       // Add tank_id parameter if a node is selected
@@ -173,7 +173,7 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedNode, nodes]);
 
   // Fetch available nodes from tank_sensorparameters table
   const fetchNodes = async () => {
@@ -253,8 +253,7 @@ const Home = () => {
     setCustomToDate(event.target.value);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
     // Initial data fetch
     fetchNodes();
     fetchSensorData();
@@ -265,28 +264,25 @@ const Home = () => {
     }, 30000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchSensorData]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
     if (selectedNode) {
       fetchSensorData();
     }
-  }, [selectedNode]);
+  }, [selectedNode, fetchSensorData]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
     if (selectedTimeRange && selectedNode) {
       fetchSensorData();
     }
-  }, [selectedTimeRange]);
+  }, [selectedTimeRange, selectedNode, fetchSensorData]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
     if (selectedTimeRange === 'custom' && customFromDate && customToDate && selectedNode) {
       fetchSensorData();
     }
-  }, [customFromDate, customToDate]);
+  }, [customFromDate, customToDate, selectedTimeRange, selectedNode, fetchSensorData]);
 
   return (
     <div className="home-page">
