@@ -175,9 +175,10 @@ const Home = () => {
     }
   };
 
-  // Fetch available nodes from tank_sensorparameters table
+  // Fetch available nodes from tank_sensorparameters table OR auto-detect from sensor data
   const fetchNodes = async () => {
     try {
+      // First try to get tank parameters
       const response = await axios.get(
         config.TANK_PARAMETERS_URL,
         {
@@ -188,32 +189,78 @@ const Home = () => {
       );
 
       const nodesData = response.data || [];
-      // Transform the data to match our node structure
-      const transformedNodes = nodesData.map(node => ({
-        id: node.node_id,
-        name: node.node_id,
-        tank_height: node.tank_height_cm,
-        tank_length: node.tank_length_cm,
-        tank_width: node.tank_width_cm,
-        latitude: node.lat,
-        longitude: node.long
-      }));
+      
+      if (nodesData.length > 0) {
+        // Transform the data to match our node structure
+        const transformedNodes = nodesData.map(node => ({
+          id: node.node_id,
+          name: node.node_id,
+          tank_height: node.tank_height_cm,
+          tank_length: node.tank_length_cm,
+          tank_width: node.tank_width_cm,
+          latitude: node.lat,
+          longitude: node.long
+        }));
 
-      setNodes(transformedNodes);
+        setNodes(transformedNodes);
 
-      // Set first node as default if no node is selected
-      if (transformedNodes.length > 0 && !selectedNode) {
-        setSelectedNode(transformedNodes[0].id);
+        // Set first node as default if no node is selected
+        if (transformedNodes.length > 0 && !selectedNode) {
+          setSelectedNode(transformedNodes[0].id);
+        }
+      } else {
+        // If tank_parameters is empty, auto-detect nodes from sensor data
+        const sensorResponse = await axios.get(config.SENSOR_DATA_URL);
+        const sensorData = sensorResponse.data || [];
+        
+        // Extract unique node_ids from sensor data
+        const uniqueNodeIds = [...new Set(sensorData.map(item => item.node_id))];
+        
+        if (uniqueNodeIds.length > 0) {
+          const autoDetectedNodes = uniqueNodeIds.map(nodeId => ({
+            id: nodeId,
+            name: nodeId,
+            tank_height: 200, // Default height
+            tank_length: 100,
+            tank_width: 100,
+            latitude: 0,
+            longitude: 0
+          }));
+          
+          setNodes(autoDetectedNodes);
+          setSelectedNode(autoDetectedNodes[0].id);
+        } else {
+          setNodes([]);
+          setNodeDataMessage('No sensor data available in system');
+        }
       }
     } catch (error) {
       console.error('Error fetching nodes:', error);
-      // If API fails, create some sample nodes based on your data
-      const sampleNodes = [
-        { id: '', name: 'Tank 001' }
-      ];
-      setNodes(sampleNodes);
-      if (!selectedNode) {
-        setSelectedNode(sampleNodes[0].id);
+      
+      // Fallback: try to get unique nodes from sensor data
+      try {
+        const sensorResponse = await axios.get(config.SENSOR_DATA_URL);
+        const sensorData = sensorResponse.data || [];
+        
+        const uniqueNodeIds = [...new Set(sensorData.map(item => item.node_id))];
+        
+        if (uniqueNodeIds.length > 0) {
+          const autoDetectedNodes = uniqueNodeIds.map(nodeId => ({
+            id: nodeId,
+            name: nodeId,
+            tank_height: 200,
+            tank_length: 100,
+            tank_width: 100,
+            latitude: 0,
+            longitude: 0
+          }));
+          
+          setNodes(autoDetectedNodes);
+          setSelectedNode(autoDetectedNodes[0].id);
+        }
+      } catch (innerError) {
+        console.error('Error auto-detecting nodes:', innerError);
+        setNodeDataMessage('Unable to connect to backend API');
       }
     }
   };

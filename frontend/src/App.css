@@ -1,9 +1,9 @@
-/* ===== COLLEGE THEME COLORS ===== */
+/* ===== HITAM THEME COLORS ===== */
 :root {
-  --primary-color: #1f3a93;      /* IIITH Blue */
-  --secondary-color: #f39200;    /* IIITH Orange */
-  --accent-color: #00a8e8;       /* Accent Blue */
-  --success-color: #27ae60;
+  --primary-color: #2BBF59;      /* HITAM Green */
+  --secondary-color: #ffffff;    /* White */
+  --accent-color: #2BBF59;       /* HITAM Green */
+  --success-color: #2BBF59;
   --danger-color: #e74c3c;
   --warning-color: #f39200;
   --light-bg: #f8f9fa;

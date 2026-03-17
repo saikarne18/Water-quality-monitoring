@@ -11,32 +11,16 @@ const Navbar = ({ onToggleSidebar }) => {
         </button>
         
         <div className="logo">
-          <img src="https://tse4.mm.bing.net/th/id/OIP.OQ6ucQ9Mfhg3t1WngxT2UgHaEM?pid=Api&P=0&h=180" alt="Logo" className="logo-img" />
+          <svg width="40" height="40" viewBox="0 0 225 235" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="225" height="235" fill="#2BBF59"/>
+            <text x="112" y="170" fontFamily="Arial, sans-serif" fontSize="48" fontWeight="bold" fill="white" textAnchor="middle">HITAM</text>
+          </svg>
         </div>
       </div>
       
       <div className="navbar-center">
-        <h1 className="navbar-title">IOT Dashboard</h1>
+        <h1 className="navbar-title">HITAM Water Quality Monitoring</h1>
       </div>
-      
-      {/* <div className="navbar-right">
-        <div className="notification-icon">
-          <svg 
-            width="24" 
-            height="24" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2"
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-          </svg>
-          <span className="notification-badge">3</span>
-        </div>
-      </div> */}
     </nav>
   );
 };
