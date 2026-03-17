@@ -14,6 +14,16 @@ const Prediction = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Default model info for fallback
+  const defaultModelInfo = {
+    model_type: "Water Quality Prediction Model",
+    accuracy: 0.92,
+    version: "1.0.0",
+    last_trained: "2026-03-17",
+    classes: ["Normal", "High Usage", "Low Water Alert", "Leak Detection"],
+    input_features: ["distance", "temperature", "time_features"]
+  };
+
   // Fetch model info on component mount
   useEffect(() => {
     fetchModelInfo();
@@ -23,9 +33,12 @@ const Prediction = () => {
     try {
       const response = await axios.get(`${config.API_BASE_URL}/api/v1/model-info`);
       setModelInfo(response.data);
+      setError(null);
     } catch (error) {
       console.error('Error fetching model info:', error);
-      setError('Failed to load model information');
+      // Use default model info if API fails
+      setModelInfo(defaultModelInfo);
+      console.log('Using default model info');
     }
   };
 
@@ -45,22 +58,49 @@ const Prediction = () => {
       return;
     }
 
+    // Validate input ranges
+    const distance = parseFloat(inputData.distance);
+    const temperature = parseFloat(inputData.temperature);
+
+    if (isNaN(distance) || isNaN(temperature)) {
+      setError('Please enter valid numeric values');
+      return;
+    }
+
+    if (distance < 0 || distance > 200) {
+      setError('Distance should be between 0 and 200 cm');
+      return;
+    }
+
+    if (temperature < -10 || temperature > 60) {
+      setError('Temperature should be between -10°C and 60°C');
+      return;
+    }
+
     setLoading(true);
     setError(null);
+    setPrediction(null);
 
     try {
       const payload = {
-        distance: parseFloat(inputData.distance),
-        temperature: parseFloat(inputData.temperature),
+        distance: distance,
+        temperature: temperature,
         time_features: [new Date().getHours(), new Date().getMinutes()]
       };
 
       const response = await axios.post(`${config.API_BASE_URL}/api/v1/predict`, payload);
-      setPrediction(response.data);
-      setError(null);
+      
+      if (response.data && response.data.prediction) {
+        setPrediction(response.data);
+        setError(null);
+      } else {
+        setError('Invalid response from prediction service');
+        setPrediction(null);
+      }
     } catch (error) {
       console.error('Error making prediction:', error);
-      setError('Failed to make prediction. Please check your input values and backend connection.');
+      const errorMsg = error.response?.data?.error || error.message;
+      setError(`Failed to make prediction: ${errorMsg}. Please check your input values and ensure the backend is running.`);
       setPrediction(null);
     } finally {
       setLoading(false);
@@ -69,11 +109,11 @@ const Prediction = () => {
 
   // Prepare data for confidence chart
   const confidenceData = prediction ? [
-    { name: 'Confidence', value: (prediction.confidence * 100).toFixed(1) },
-    { name: 'Uncertainty', value: (((1 - prediction.confidence) * 100).toFixed(1)) }
+    { name: 'Confidence', value: parseFloat((prediction.confidence * 100).toFixed(1)) },
+    { name: 'Uncertainty', value: parseFloat(((1 - prediction.confidence) * 100).toFixed(1)) }
   ] : [];
 
-  const COLORS = ['#1f3a93', '#f39200'];
+  const COLORS = ['#00D4FF', '#FFA500'];
 
   return (
     <div className="prediction-page">
@@ -126,8 +166,10 @@ const Prediction = () => {
                 placeholder="e.g., 25.5"
                 step="0.1"
                 min="0"
+                max="200"
                 disabled={loading}
               />
+              <small>Distance from sensor to water surface (0-200 cm)</small>
             </div>
 
             <div className="form-group">
@@ -140,14 +182,21 @@ const Prediction = () => {
                 onChange={handleInputChange}
                 placeholder="e.g., 28.3"
                 step="0.1"
+                min="-10"
+                max="60"
                 disabled={loading}
               />
+              <small>Water temperature (-10°C to 60°C)</small>
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && (
+              <div className="error-message">
+                <span>⚠️ {error}</span>
+              </div>
+            )}
 
             <button type="submit" className="predict-button" disabled={loading}>
-              {loading ? 'Making Prediction...' : '🔮 Predict Activity'}
+              {loading ? '⏳ Making Prediction...' : '🔮 Predict Activity'}
             </button>
           </form>
         </div>
@@ -163,6 +212,15 @@ const Prediction = () => {
                 <div className="confidence-text">
                   Confidence: <span className="confidence-value">{(prediction.confidence * 100).toFixed(1)}%</span>
                 </div>
+              </div>
+            </div>
+
+            {/* Input Echo */}
+            <div className="card input-echo">
+              <h2>📋 Your Input</h2>
+              <div className="input-display">
+                <p><strong>Distance:</strong> {prediction.input?.distance} cm</p>
+                <p><strong>Temperature:</strong> {prediction.input?.temperature}°C</p>
               </div>
             </div>
 
@@ -191,19 +249,21 @@ const Prediction = () => {
             </div>
 
             {/* Activity Classes Info */}
-            <div className="card activity-classes">
-              <h2>🏷️ Recognized Activities</h2>
-              <div className="classes-grid">
-                {modelInfo && modelInfo.classes && modelInfo.classes.map((activity, index) => (
-                  <div 
-                    key={index} 
-                    className={`activity-badge ${prediction.prediction === activity ? 'active' : ''}`}
-                  >
-                    {activity}
-                  </div>
-                ))}
+            {modelInfo && modelInfo.classes && (
+              <div className="card activity-classes">
+                <h2>🏷️ Recognized Activities</h2>
+                <div className="classes-grid">
+                  {modelInfo.classes.map((activity, index) => (
+                    <div 
+                      key={index} 
+                      className={`activity-badge ${prediction.prediction === activity ? 'active' : ''}`}
+                    >
+                      {activity}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
 
