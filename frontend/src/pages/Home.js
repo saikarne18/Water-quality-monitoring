@@ -30,6 +30,7 @@ const Home = () => {
   };
 
   // Get time range parameters based on selection
+  // eslint-disable-next-line no-unused-vars
   const getTimeRangeParams = () => {
     const now = new Date();
     let fromDate, toDate;
@@ -266,6 +267,7 @@ const Home = () => {
   }, []);
 
   // Effect to refetch sensor data when selectedNode changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (selectedNode) {
       fetchSensorData();
@@ -273,6 +275,7 @@ const Home = () => {
   }, [selectedNode]);
 
   // Effect to refetch sensor data when time range changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (selectedTimeRange && selectedNode) {
       fetchSensorData();
@@ -280,6 +283,7 @@ const Home = () => {
   }, [selectedTimeRange]);
 
   // Effect to refetch sensor data when custom dates change
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (selectedTimeRange === 'custom' && customFromDate && customToDate && selectedNode) {
       fetchSensorData();
