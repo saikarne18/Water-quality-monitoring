@@ -253,7 +253,6 @@ const Home = () => {
     setCustomToDate(event.target.value);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     // Initial data fetch
     fetchNodes();
@@ -267,21 +266,18 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (selectedNode) {
       fetchSensorData();
     }
   }, [selectedNode]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (selectedTimeRange && selectedNode) {
       fetchSensorData();
     }
   }, [selectedTimeRange, selectedNode]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (selectedTimeRange === 'custom' && customFromDate && customToDate && selectedNode) {
       fetchSensorData();
