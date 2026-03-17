@@ -80,7 +80,8 @@
   padding: 15px;
   border-radius: 8px;
   text-align: center;
-  border-left: 4px solid #FF6B9D;\n}
+  border-left: 4px solid #FF6B9D;
+}
 
 .info-item label {
   display: block;
