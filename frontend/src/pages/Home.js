@@ -254,7 +254,7 @@ const Home = () => {
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
+  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
     // Initial data fetch
     fetchNodes();
     fetchSensorData();
@@ -267,25 +267,22 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Effect to refetch sensor data when selectedNode changes
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
+  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
     if (selectedNode) {
       fetchSensorData();
     }
   }, [selectedNode]);
 
-  // Effect to refetch sensor data when time range changes
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
+  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
     if (selectedTimeRange && selectedNode) {
       fetchSensorData();
     }
   }, [selectedTimeRange]);
 
-  // Effect to refetch sensor data when custom dates change
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
+  useEffect(() => { // eslint-disable-line react-hooks/exhaustive-deps
     if (selectedTimeRange === 'custom' && customFromDate && customToDate && selectedNode) {
       fetchSensorData();
     }
