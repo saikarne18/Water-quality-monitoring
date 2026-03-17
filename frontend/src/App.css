@@ -283,11 +283,11 @@ body {
 
 .sidebar-header h3 {
   margin: 0;
-  background: linear-gradient(135deg, var(--primary-pink) 0%, var(--primary-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #FF6B9D;
   font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .close-btn {
@@ -594,10 +594,12 @@ body {
 }
 
 .card-header h3 {
-  color: var(--dark-gray);
+  color: #FF6B9D;
   font-size: 1.25rem;
   margin: 0;
-  font-weight: 700;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .card-value {
@@ -710,10 +712,12 @@ body {
 }
 
 .graph-card h3 {
-  color: var(--dark-gray);
+  color: #1DB584;
   margin-bottom: 20px;
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .graph-loading {

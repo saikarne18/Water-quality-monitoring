@@ -19,9 +19,11 @@
 
 .prediction-header h1 {
   font-size: 2.5rem;
-  color: var(--primary-color);
+  color: #1DB584;
   margin-bottom: 10px;
-  font-weight: 700;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .prediction-header p {
@@ -56,11 +58,14 @@
 }
 
 .card h2 {
-  color: var(--primary-color);
+  color: #FF6B9D;
   margin-bottom: 20px;
   font-size: 1.5rem;
-  border-bottom: 3px solid var(--secondary-color);
+  font-weight: 900;
+  border-bottom: 3px solid #FF6B9D;
   padding-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Model Info Card */
@@ -75,8 +80,7 @@
   padding: 15px;
   border-radius: 8px;
   text-align: center;
-  border-left: 4px solid var(--secondary-color);
-}
+  border-left: 4px solid #FF6B9D;\n}
 
 .info-item label {
   display: block;
@@ -91,11 +95,11 @@
   display: block;
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: #FF6B9D;
 }
 
 .info-value.success {
-  color: var(--success-color);
+  color: #00FF7F;
 }
 
 /* Prediction Form */
@@ -112,10 +116,12 @@
 }
 
 .form-group label {
-  color: var(--primary-color);
-  font-weight: 600;
+  color: #1DB584;
+  font-weight: 900;
   margin-bottom: 8px;
   font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .form-group input {
@@ -129,8 +135,8 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: var(--secondary-color);
-  box-shadow: 0 0 0 3px rgba(243, 146, 0, 0.1);
+  border-color: #FF6B9D;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
 }
 
 .form-group input:disabled {
@@ -142,16 +148,18 @@
 /* Predict Button */
 .predict-button {
   padding: 12px 30px;
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: linear-gradient(135deg, #FF6B9D 0%, #FFA500 100%);
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   grid-column: span 1;
   min-height: 48px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .predict-button:hover:not(:disabled) {
@@ -220,9 +228,10 @@
 .prediction-display {
   text-align: center;
   padding: 40px 30px;
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(29, 181, 132, 0.95) 0%, rgba(0, 212, 255, 0.95) 100%);
   border-radius: 12px;
   backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
 .activity-label {
