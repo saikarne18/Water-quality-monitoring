@@ -72,12 +72,12 @@ const Home = () => {
   };
 
   // Fetch real sensor data from API
-  const fetchSensorData = async () => {
+  const fetchSensorData = async (nodeId = null) => {
+    const nodeToUse = nodeId || selectedNode;
+    if (!nodeToUse) return; // Don't fetch if no node selected
+    
     try {
       setLoading(true);
-      // Add tank_id parameter if a node is selected
-      // Map the selected node to actual tank_id used in sensor data
-
       let url = config.SENSOR_DATA_URL;
 
       const response = await axios.get(url, {
@@ -87,8 +87,7 @@ const Home = () => {
       });
 
       const allSensorData = response.data || [];
-
-      const actualNodeId = getActualTankId(selectedNode);
+      const actualNodeId = getActualTankId(nodeToUse);
 
       const sensorData = allSensorData.filter(
         (item) => item.node_id === actualNodeId
@@ -102,7 +101,7 @@ const Home = () => {
         const latest = sensorData[0];
 
         // Get tank height for the selected node (default to 200cm if not found)
-        const selectedNodeData = nodes.find(n => n.id === selectedNode);
+        const selectedNodeData = nodes.find(n => n.id === nodeToUse);
         const tankHeight = selectedNodeData?.tank_height || 200;
 
         // Convert water level cm to percentage using actual tank height
@@ -152,9 +151,9 @@ const Home = () => {
       } else {
         // No data found for selected node
         setHasDataForNode(false);
-        if (selectedNode) {
-          const actualTankId = getActualTankId(selectedNode);
-          setNodeDataMessage(`No sensor data found for ${selectedNode} (checking tank_id: ${actualTankId})`);
+        if (nodeToUse) {
+          const actualTankId = getActualTankId(nodeToUse);
+          setNodeDataMessage(`No sensor data found for ${nodeToUse} (checking tank_id: ${actualTankId})`);
         } else {
           setNodeDataMessage('No sensor data available');
         }
@@ -270,12 +269,10 @@ const Home = () => {
     const nodeId = event.target.value;
     setSelectedNode(nodeId);
     setNodeDataMessage(''); // Clear previous messages
-
-    // Reset data state while loading
     if (nodeId) {
       setLoading(true);
-      const actualTankId = getActualTankId(nodeId);
-      setNodeDataMessage(`Checking data for ${nodeId} (tank_id: ${actualTankId})...`);
+      // Fetch data immediately for the selected node
+      fetchSensorData(nodeId);
     }
   };
 
@@ -300,38 +297,37 @@ const Home = () => {
     setCustomToDate(event.target.value);
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Initial setup - fetch nodes
   useEffect(() => {
-    // Initial data fetch
     fetchNodes();
-    fetchSensorData();
-
-    // Update data every 30 seconds
-    const interval = setInterval(() => {
-      fetchSensorData();
-    }, 30000);
-
-    return () => clearInterval(interval);
   }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Fetch sensor data when node is selected and update every 30 seconds
   useEffect(() => {
     if (selectedNode) {
-      fetchSensorData();
+      // Fetch immediately when node is selected
+      fetchSensorData(selectedNode);
+
+      // Set up polling interval to refresh every 30 seconds
+      const interval = setInterval(() => {
+        fetchSensorData(selectedNode);
+      }, 30000);
+
+      return () => clearInterval(interval);
     }
   }, [selectedNode]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Refetch when time range changes
   useEffect(() => {
     if (selectedTimeRange && selectedNode) {
-      fetchSensorData();
+      fetchSensorData(selectedNode);
     }
-  }, [selectedTimeRange, selectedNode]);
+  }, [selectedTimeRange]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Refetch when custom dates change
   useEffect(() => {
     if (selectedTimeRange === 'custom' && customFromDate && customToDate && selectedNode) {
-      fetchSensorData();
+      fetchSensorData(selectedNode);
     }
   }, [customFromDate, customToDate]);
 

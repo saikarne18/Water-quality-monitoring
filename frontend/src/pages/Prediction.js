@@ -57,9 +57,11 @@ const Prediction = () => {
 
       const response = await axios.post(`${config.API_BASE_URL}/api/v1/predict`, payload);
       setPrediction(response.data);
+      setError(null);
     } catch (error) {
       console.error('Error making prediction:', error);
-      setError('Failed to make prediction. Please check your input values.');
+      setError('Failed to make prediction. Please check your input values and backend connection.');
+      setPrediction(null);
     } finally {
       setLoading(false);
     }
