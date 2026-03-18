@@ -1,8 +1,11 @@
 // src/config.js
 // Central config for API URLs and other constants
 
-// Use environment variable for production, fallback to localhost for development
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000";
+// Determine environment and use correct API URL
+const isDevelopment = process.env.NODE_ENV === 'development';
+const API_BASE_URL = isDevelopment 
+  ? (process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000")
+  : "https://water-quality-monitoring-9qmp.onrender.com";
 
 const config = {
   API_BASE_URL,
