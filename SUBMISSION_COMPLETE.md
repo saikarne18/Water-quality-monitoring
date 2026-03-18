@@ -73,7 +73,7 @@ This submission contains the complete implementation of the IoT Water Quality Mo
 | Platform | Service | Status | URL |
 |----------|---------|--------|-----|
 | Render | FastAPI Backend | ✅ | https://water-quality-monitoring-9qmp.onrender.com |
-| Vercel | React Frontend | ✅ | https://water-monitoring-frontend.vercel.app |
+| Vercel | React Frontend | ✅ | https://water-quality-monitoring-azure.vercel.app |
 | GitHub | Source Control | ✅ | https://github.com/saikarne18/Water-quality-monitoring |
 
 **Status:** ✅ Both production deployments live and operational
@@ -147,7 +147,7 @@ This submission contains the complete implementation of the IoT Water Quality Mo
 
 **Frontend Dashboard:**
 ```
-https://water-monitoring-frontend.vercel.app
+https://water-quality-monitoring-azure.vercel.app
 ```
 - React 18 application
 - 9 complete pages with all features
@@ -320,7 +320,7 @@ curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 
 ### ✅ Deployment Status: OPERATIONAL
 
-- Frontend: https://water-monitoring-frontend.vercel.app ✅
+- Frontend: https://water-quality-monitoring-azure.vercel.app ✅
 - Backend: https://water-quality-monitoring-9qmp.onrender.com ✅
 - Auto-deployment: Enabled ✅
 - SSL/HTTPS: Active ✅
@@ -353,7 +353,7 @@ All requirements met, all features implemented, all systems operational.
 
 | Item | Link |
 |------|------|
-| Frontend App | https://water-monitoring-frontend.vercel.app |
+| Frontend App | https://water-quality-monitoring-azure.vercel.app |
 | Backend API | https://water-quality-monitoring-9qmp.onrender.com |
 | GitHub Repo | https://github.com/saikarne18/Water-quality-monitoring |
 | Health Check | https://water-quality-monitoring-9qmp.onrender.com/api/v1/health |

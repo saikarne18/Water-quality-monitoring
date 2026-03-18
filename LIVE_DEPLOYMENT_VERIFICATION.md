@@ -9,7 +9,7 @@
 
 ### Frontend Dashboard
 ```
-https://water-monitoring-frontend.vercel.app
+https://water-quality-monitoring-azure.vercel.app
 ```
 
 ### Backend API
@@ -99,7 +99,7 @@ wscat -c wss://water-quality-monitoring-9qmp.onrender.com/ws/predictions
 ### Part 2: Frontend Dashboard Verification
 
 #### 2.1 Application Loads
-- [ ] https://water-monitoring-frontend.vercel.app loads
+- [ ] https://water-quality-monitoring-azure.vercel.app loads
 - [ ] No JavaScript errors in console
 - [ ] Login/Signup pages visible
 - [ ] Navigation works smoothly
@@ -349,7 +349,7 @@ Test on:
 **Deployment Status:** ✅ COMPLETE AND VERIFIED
 
 - **Backend API:** Online at https://water-quality-monitoring-9qmp.onrender.com
-- **Frontend:** Online at https://water-monitoring-frontend.vercel.app
+- **Frontend:** Online at https://water-quality-monitoring-azure.vercel.app
 - **GitHub:** https://github.com/saikarne18/Water-quality-monitoring
 - **Database:** Connected and operational
 - **ML Models:** All 3 models deployed and accessible

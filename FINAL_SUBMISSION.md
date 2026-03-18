@@ -39,7 +39,7 @@ This project implements a complete **full-stack water quality monitoring system*
 - **Status:** ✅ Live and Running
 
 ### Frontend Dashboard
-- **URL:** `https://water-monitoring-frontend.vercel.app`
+- **URL:** `https://water-quality-monitoring-azure.vercel.app`
 - **Status:** ✅ Live and Running
 
 ### GitHub Repository
@@ -262,7 +262,7 @@ This project implements a complete **full-stack water quality monitoring system*
 | 7 | Prediction page | ✅ | Prediction.js with charts |
 | 8 | Custom charts (2 new types) | ✅ | 4 custom Recharts in CustomCharts.js |
 | 9 | Deployed backend URL | ✅ | https://water-quality-monitoring-9qmp.onrender.com |
-| 10 | Deployed frontend URL | ✅ | https://water-monitoring-frontend.vercel.app |
+| 10 | Deployed frontend URL | ✅ | https://water-quality-monitoring-azure.vercel.app |
 | 11 | Working deployed screenshot | ✅ | [Screenshots to be added] |
 | 12 | GitHub repository | ✅ | https://github.com/saikarne18/Water-quality-monitoring |
 
@@ -349,7 +349,7 @@ The system is:
 **Submission Date:** March 18, 2026  
 **GitHub:** https://github.com/saikarne18/Water-quality-monitoring  
 **Backend:** https://water-quality-monitoring-9qmp.onrender.com  
-**Frontend:** https://water-monitoring-frontend.vercel.app
+**Frontend:** https://water-quality-monitoring-azure.vercel.app
 
 ---
 

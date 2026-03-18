@@ -90,7 +90,7 @@ Value: https://water-quality-monitoring-9qmp.onrender.com
 1. Click **"Deploy"**
 2. Wait 3-5 minutes for build
 3. ✅ When successful, you'll see: **"Congratulations! Your project has been successfully deployed"**
-4. **Copy the URL** (e.g., `https://water-monitoring-frontend.vercel.app`)
+4. **Copy the URL** (e.g., `https://water-quality-monitoring-azure.vercel.app`)
 
 ---
 
@@ -151,7 +151,7 @@ After deployment, verify these work:
 After successful deployment, you'll have:
 
 **Backend:** `https://water-quality-monitoring-9qmp.onrender.com`
-**Frontend:** `https://water-monitoring-frontend.vercel.app`
+**Frontend:** `https://water-quality-monitoring-azure.vercel.app`
 
 ---
 

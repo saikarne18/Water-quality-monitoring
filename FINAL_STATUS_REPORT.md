@@ -49,7 +49,7 @@
 
 - [x] **Task 5: Cloud Deployment**
   - Backend: Render (https://water-quality-monitoring-9qmp.onrender.com)
-  - Frontend: Vercel (https://water-monitoring-frontend.vercel.app)
+  - Frontend: Vercel (https://water-quality-monitoring-azure.vercel.app)
   - GitHub: https://github.com/saikarne18/Water-quality-monitoring
   - Status: ✅ Both live and operational
 
@@ -71,7 +71,7 @@
 
 ### Frontend Dashboard
 ```
-https://water-monitoring-frontend.vercel.app
+https://water-quality-monitoring-azure.vercel.app
 ```
 - React 18 application
 - Deployed to Vercel CDN
@@ -97,7 +97,7 @@ curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/model-info
 
 # Frontend
-Open: https://water-monitoring-frontend.vercel.app
+Open: https://water-quality-monitoring-azure.vercel.app
 ```
 
 ---
@@ -158,7 +158,7 @@ Open: https://water-monitoring-frontend.vercel.app
    - Vercel pulls latest code
    - Builds React application
    - Deploys to global CDN
-   - Status: Live at https://water-monitoring-frontend.vercel.app
+   - Status: Live at https://water-quality-monitoring-azure.vercel.app
 
 4. **Database Connection**
    - Backend communicates with Aiven PostgreSQL
@@ -177,7 +177,7 @@ Open: https://water-monitoring-frontend.vercel.app
 ```
 ┌─────────────────────────────────────────────────────────┐
 │              Frontend (React 18)                        │
-│  https://water-monitoring-frontend.vercel.app          │
+│  https://water-quality-monitoring-azure.vercel.app          │
 │  - 9 Pages                                              │
 │  - Dark Mode                                            │
 │  - Mobile Responsive                                    │
@@ -220,7 +220,7 @@ Open: https://water-monitoring-frontend.vercel.app
 ### 1. Frontend Access
 ```bash
 # Open in browser
-https://water-monitoring-frontend.vercel.app
+https://water-quality-monitoring-azure.vercel.app
 
 # Should see:
 ✅ Water Quality Monitoring Dashboard
@@ -357,7 +357,7 @@ All documentation is available in the repository:
 - ✅ Documentation: Complete and thorough
 
 ### Production URLs
-- **Frontend:** https://water-monitoring-frontend.vercel.app
+- **Frontend:** https://water-quality-monitoring-azure.vercel.app
 - **Backend:** https://water-quality-monitoring-9qmp.onrender.com
 - **GitHub:** https://github.com/saikarne18/Water-quality-monitoring
 

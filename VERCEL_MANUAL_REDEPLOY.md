@@ -36,7 +36,7 @@ git push origin main
 4. Wait 2-3 minutes for build to complete
 
 ### Step 5: Verify
-1. Visit: https://water-monitoring-frontend.vercel.app
+1. Visit: https://water-quality-monitoring-azure.vercel.app
 2. It should load WITHOUT 404 errors
 3. Backend API calls should work
 

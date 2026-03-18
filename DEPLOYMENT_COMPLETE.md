@@ -30,7 +30,7 @@ This document verifies that the complete water quality monitoring system has bee
 
 ### Frontend Dashboard
 ```
-https://water-monitoring-frontend.vercel.app
+https://water-quality-monitoring-azure.vercel.app
 ```
 **Status:** ✅ Live on Vercel CDN  
 **Framework:** React 18 (Vercel deployment)  
@@ -376,7 +376,7 @@ https://water-quality-monitoring-9qmp.onrender.com
 
 The frontend is already deployed to Vercel at:
 ```
-https://water-monitoring-frontend.vercel.app
+https://water-quality-monitoring-azure.vercel.app
 ```
 
 **If redeploying:**
@@ -389,7 +389,7 @@ https://water-monitoring-frontend.vercel.app
 ## ✅ VERIFICATION CHECKLIST
 
 ### Frontend Access
-- [ ] https://water-monitoring-frontend.vercel.app loads
+- [ ] https://water-quality-monitoring-azure.vercel.app loads
 - [ ] Login page visible
 - [ ] Can create new account
 - [ ] Can log in
@@ -509,7 +509,7 @@ https://water-monitoring-frontend.vercel.app
 
 **All systems operational and live!**
 
-- **Frontend:** ✅ https://water-monitoring-frontend.vercel.app
+- **Frontend:** ✅ https://water-quality-monitoring-azure.vercel.app
 - **Backend:** ✅ https://water-quality-monitoring-9qmp.onrender.com  
 - **Database:** ✅ Aiven PostgreSQL connected
 - **ML Models:** ✅ 6 models deployed, 92% best accuracy

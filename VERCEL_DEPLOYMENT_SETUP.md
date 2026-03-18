@@ -1,6 +1,6 @@
 # 🚀 Vercel Frontend Deployment Setup
 
-**Frontend Application URL:** `https://water-monitoring-frontend.vercel.app`
+**Frontend Application URL:** `https://water-quality-monitoring-azure.vercel.app`
 
 ## ✅ Complete Step-by-Step Instructions
 
@@ -59,12 +59,12 @@ Value: https://water-quality-monitoring-9qmp.onrender.com
 - Click **Deploy**
 - Wait 3-5 minutes for build and deployment
 - ✅ Status should show "Ready"
-- Copy the URL: `https://water-monitoring-frontend.vercel.app`
+- Copy the URL: `https://water-quality-monitoring-azure.vercel.app`
 
 ### 7️⃣ Verify Deployment
 ```bash
 # Visit the frontend URL in browser:
-https://water-monitoring-frontend.vercel.app
+https://water-quality-monitoring-azure.vercel.app
 
 # Should see:
 ✅ Water Quality Monitoring Dashboard loads
@@ -81,7 +81,7 @@ https://water-monitoring-frontend.vercel.app
 ## 🧪 Post-Deployment Testing
 
 ### Test Login Flow
-1. Visit `https://water-monitoring-frontend.vercel.app`
+1. Visit `https://water-quality-monitoring-azure.vercel.app`
 2. Click "Sign Up" tab
 3. Create new account:
    - Email: test@example.com
@@ -171,7 +171,7 @@ The frontend uses this to construct all API endpoints:
 ## 🔗 Final URLs
 
 ### Production URLs (After Deployment)
-- **Frontend:** https://water-monitoring-frontend.vercel.app
+- **Frontend:** https://water-quality-monitoring-azure.vercel.app
 - **Backend API:** https://water-quality-monitoring-9qmp.onrender.com
 - **GitHub:** https://github.com/saikarne18/Water-quality-monitoring
 

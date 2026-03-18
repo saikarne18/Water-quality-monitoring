@@ -31,7 +31,7 @@
 
 ### 🌐 Frontend Dashboard
 ```
-https://water-monitoring-frontend.vercel.app
+https://water-quality-monitoring-azure.vercel.app
 ```
 ✅ **Status: LIVE**
 - React 18 Application
@@ -75,7 +75,7 @@ curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 
 ### 2. Visit Frontend (1 minute)
 ```
-Visit: https://water-monitoring-frontend.vercel.app
+Visit: https://water-quality-monitoring-azure.vercel.app
 ```
 ✅ **You should see the Water Quality Monitoring Dashboard**
 
@@ -153,7 +153,7 @@ Visit: https://water-monitoring-frontend.vercel.app
 **If Frontend doesn't load:**
 - Check browser console (F12)
 - Clear browser cache
-- Verify URL: https://water-monitoring-frontend.vercel.app
+- Verify URL: https://water-quality-monitoring-azure.vercel.app
 
 **If API returns errors:**
 - Test health: https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
@@ -246,7 +246,7 @@ User → Frontend (Vercel)
 ## 🚀 Next Steps (If Needed)
 
 **For Evaluation:**
-1. Open Frontend: https://water-monitoring-frontend.vercel.app
+1. Open Frontend: https://water-quality-monitoring-azure.vercel.app
 2. Follow Quick Verification Steps above
 3. All tests should pass ✅
 
@@ -286,4 +286,4 @@ All requirements met, all features implemented, all systems operational.
 **Status:** ✅ COMPLETE AND VERIFIED  
 **Score:** 120/120 POINTS  
 
-**Start Testing at:** https://water-monitoring-frontend.vercel.app
+**Start Testing at:** https://water-quality-monitoring-azure.vercel.app

@@ -14,7 +14,7 @@
 - **Type:** FastAPI/Python on Render
 
 ### ✅ Frontend Dashboard
-- **URL:** `https://water-monitoring-frontend.vercel.app`
+- **URL:** `https://water-quality-monitoring-azure.vercel.app`
 - **Status:** ✅ WORKING
 - **Type:** React 18 on Vercel
 
@@ -59,7 +59,7 @@ JWT_ALGORITHM=HS256
 |------|-----|--------|-------|
 | Backend Health | `https://water-quality-monitoring-9qmp.onrender.com/api/v1/health` | ✅ | Returns {"status":"healthy"} |
 | Model Info | `https://water-quality-monitoring-9qmp.onrender.com/api/v1/model-info` | ✅ | Returns model details |
-| Frontend Load | `https://water-monitoring-frontend.vercel.app` | ✅ | Loads dashboard |
+| Frontend Load | `https://water-quality-monitoring-azure.vercel.app` | ✅ | Loads dashboard |
 | API Integration | Frontend → Backend | ✅ | Uses correct URL from .env |
 
 ---
@@ -100,7 +100,7 @@ All markdown files updated with correct backend URL:
 
 ### Vercel Frontend
 - **Service:** Water Monitoring Frontend
-- **URL:** https://water-monitoring-frontend.vercel.app
+- **URL:** https://water-quality-monitoring-azure.vercel.app
 - **Status:** ✅ Running
 - **Auto-Deploy:** Enabled (triggers on GitHub push)
 
@@ -136,12 +136,12 @@ All markdown files updated with correct backend URL:
 
 **For Developers:**
 - Backend deployed with: `https://water-quality-monitoring-9qmp.onrender.com`
-- Frontend deployed with: `https://water-monitoring-frontend.vercel.app`
+- Frontend deployed with: `https://water-quality-monitoring-azure.vercel.app`
 - Frontend environment: `REACT_APP_API_BASE_URL` must point to backend URL
 - All changes committed to: `https://github.com/saikarne18/Water-quality-monitoring`
 
 **For Evaluators:**
-- Start with frontend: https://water-monitoring-frontend.vercel.app
+- Start with frontend: https://water-quality-monitoring-azure.vercel.app
 - Test all 9 pages
 - Verify APIs working via backend health endpoint
 - Check GitHub repository for code
@@ -151,7 +151,7 @@ All markdown files updated with correct backend URL:
 ## ✨ FINAL CHECKLIST
 
 - ✅ Backend URL correct: `https://water-quality-monitoring-9qmp.onrender.com`
-- ✅ Frontend URL correct: `https://water-monitoring-frontend.vercel.app`
+- ✅ Frontend URL correct: `https://water-quality-monitoring-azure.vercel.app`
 - ✅ Environment files updated
 - ✅ Documentation updated
 - ✅ Git commits pushed

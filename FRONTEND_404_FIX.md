@@ -51,7 +51,7 @@ git push origin main
 5. Wait 2-3 minutes for new build
 
 #### 3️⃣ Verify It Works
-- Visit: https://water-monitoring-frontend.vercel.app
+- Visit: https://water-quality-monitoring-azure.vercel.app
 - You should see the dashboard WITHOUT 404 errors
 - Try logging in or making a prediction
 
@@ -77,7 +77,7 @@ git push origin main
 
 After redeploying, verify:
 
-- [ ] Frontend loads at: https://water-monitoring-frontend.vercel.app
+- [ ] Frontend loads at: https://water-quality-monitoring-azure.vercel.app
 - [ ] No 404 or "page not found" errors
 - [ ] Navbar appears with branding
 - [ ] Can see Login page
@@ -93,7 +93,7 @@ After redeploying, verify:
 ### Frontend Request Flow
 
 ```
-User Visits: https://water-monitoring-frontend.vercel.app
+User Visits: https://water-quality-monitoring-azure.vercel.app
          ↓
    React App Loads config.js
          ↓
