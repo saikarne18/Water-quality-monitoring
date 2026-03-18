@@ -5,12 +5,20 @@ import psycopg2
 import time
 import random
 import threading
-from datetime import datetime
-from fastapi import FastAPI
+import json
+import asyncio
+from datetime import datetime, timedelta
+from fastapi import FastAPI, HTTPException, Depends, status, File, UploadFile, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 import uvicorn
 from urllib.parse import urlparse
+import hashlib
+import secrets
+import jwt
+from jose import JWTError
+import csv
+import io
 
 # Load environment variables from .env file
 load_dotenv()
@@ -81,6 +89,17 @@ def create_tables():
     conn = get_connection()
     cur = conn.cursor()
 
+    # Users table for authentication
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        username VARCHAR(100) UNIQUE NOT NULL,
+        hashed_password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
     # Sensor data table
     cur.execute("""
     CREATE TABLE IF NOT EXISTS sensor_data (
@@ -105,6 +124,50 @@ def create_tables():
     )
     """)
 
+    # Predictions table for batch uploads and predictions
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS predictions (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER,
+        node_id VARCHAR(50),
+        distance FLOAT,
+        temperature FLOAT,
+        prediction VARCHAR(50),
+        confidence FLOAT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+    """)
+
+    # Alert preferences table
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS alert_preferences (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER UNIQUE,
+        email_alerts_enabled BOOLEAN DEFAULT TRUE,
+        high_water_alert BOOLEAN DEFAULT TRUE,
+        low_water_alert BOOLEAN DEFAULT TRUE,
+        temperature_alert BOOLEAN DEFAULT FALSE,
+        temperature_threshold FLOAT DEFAULT 30.0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+    """)
+
+    # Alert history table
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS alert_history (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER,
+        alert_type VARCHAR(50),
+        distance FLOAT,
+        temperature FLOAT,
+        message TEXT,
+        sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
@@ -115,6 +178,11 @@ def create_tables():
 # ==============================
 REAL_DATA_WITH_CURRENT_TIME = False
 TEST_MODE = True
+
+# JWT Configuration
+JWT_SECRET = os.environ.get("JWT_SECRET", "your-secret-key-change-in-production")
+JWT_ALGORITHM = "HS256"
+JWT_EXPIRATION_HOURS = 24
 
 # Node id of sensor
 NODE_ID = "NODE_001"
@@ -362,6 +430,689 @@ class PredictionInput(BaseModel):
     time_features: list = None
 
 # Model prediction logic - hybrid ML model
+
+# ==============================
+# AUTHENTICATION MODELS
+# ==============================
+class SignUp(BaseModel):
+    email: str
+    username: str
+    password: str
+
+class Login(BaseModel):
+    email: str
+    password: str
+
+class UserResponse(BaseModel):
+    id: int
+    email: str
+    username: str
+    created_at: str
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user: UserResponse
+
+# ==============================
+# AUTHENTICATION HELPERS
+# ==============================
+def hash_password(password: str) -> str:
+    """Hash a password using SHA256 with salt"""
+    salt = secrets.token_hex(16)
+    pwd_hash = hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000)
+    return f"{salt}${pwd_hash.hex()}"
+
+def verify_password(password: str, hashed_password: str) -> bool:
+    """Verify a password against its hash"""
+    try:
+        salt, pwd_hash = hashed_password.split('$')
+        return hashlib.pbkdf2_hmac('sha256', password.encode(), salt.encode(), 100000).hex() == pwd_hash
+    except:
+        return False
+
+def create_access_token(user_id: int, email: str) -> str:
+    """Create a JWT access token"""
+    payload = {
+        "sub": str(user_id),
+        "email": email,
+        "exp": datetime.utcnow() + timedelta(hours=JWT_EXPIRATION_HOURS)
+    }
+    token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+    return token
+
+def verify_token(token: str) -> dict:
+    """Verify and decode a JWT token"""
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        return payload
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+# ==============================
+# AUTHENTICATION ENDPOINTS
+# ==============================
+@app.post("/api/v1/signup", response_model=TokenResponse)
+def signup(user_data: SignUp):
+    """Register a new user"""
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        # Check if user already exists
+        cur.execute("SELECT id FROM users WHERE email = %s OR username = %s", 
+                   (user_data.email, user_data.username))
+        if cur.fetchone():
+            cur.close()
+            conn.close()
+            raise HTTPException(status_code=400, detail="Email or username already exists")
+        
+        # Hash password
+        hashed_password = hash_password(user_data.password)
+        
+        # Insert new user
+        cur.execute("""
+            INSERT INTO users (email, username, hashed_password)
+            VALUES (%s, %s, %s)
+            RETURNING id, email, username, created_at
+        """, (user_data.email, user_data.username, hashed_password))
+        
+        user_id, email, username, created_at = cur.fetchone()
+        conn.commit()
+        
+        # Create token
+        access_token = create_access_token(user_id, email)
+        
+        return TokenResponse(
+            access_token=access_token,
+            token_type="bearer",
+            user=UserResponse(
+                id=user_id,
+                email=email,
+                username=username,
+                created_at=str(created_at)
+            )
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cur.close()
+        conn.close()
+
+@app.post("/api/v1/login", response_model=TokenResponse)
+def login(credentials: Login):
+    """Login user with email and password"""
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        # Find user by email
+        cur.execute("""
+            SELECT id, email, username, hashed_password, created_at
+            FROM users WHERE email = %s
+        """, (credentials.email,))
+        
+        user = cur.fetchone()
+        if not user:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        
+        user_id, email, username, hashed_password, created_at = user
+        
+        # Verify password
+        if not verify_password(credentials.password, hashed_password):
+            raise HTTPException(status_code=401, detail="Invalid credentials")
+        
+        # Create token
+        access_token = create_access_token(user_id, email)
+        
+        return TokenResponse(
+            access_token=access_token,
+            token_type="bearer",
+            user=UserResponse(
+                id=user_id,
+                email=email,
+                username=username,
+                created_at=str(created_at)
+            )
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cur.close()
+        conn.close()
+
+@app.get("/api/v1/verify-token")
+def verify_user_token(token: str = Depends(lambda: None)):
+    """Verify if a token is valid"""
+    # Note: In production, extract token from header Authorization: Bearer <token>
+    if not token:
+        raise HTTPException(status_code=400, detail="Token required")
+    
+    try:
+        payload = verify_token(token)
+        return {"valid": True, "user_id": payload.get("sub"), "email": payload.get("email")}
+    except HTTPException:
+        raise
+
+@app.get("/api/v1/user/profile")
+def get_user_profile(authorization: str = None):
+    """Get current user profile from token"""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.replace("Bearer ", "")
+    payload = verify_token(token)
+    user_id = int(payload.get("sub"))
+    
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        cur.execute("""
+            SELECT id, email, username, created_at FROM users WHERE id = %s
+        """, (user_id,))
+        
+        user = cur.fetchone()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        return UserResponse(
+            id=user[0],
+            email=user[1],
+            username=user[2],
+            created_at=str(user[3])
+        )
+    finally:
+        cur.close()
+        conn.close()
+
+# ==============================
+# CSV UPLOAD ENDPOINTS
+# ==============================
+class CSVUploadResponse(BaseModel):
+    message: str
+    total_rows: int
+    processed_rows: int
+    errors: list
+    predictions: list
+
+@app.post("/api/v1/upload-csv", response_model=CSVUploadResponse)
+async def upload_csv(file: UploadFile = File(...), authorization: str = None):
+    """
+    Upload CSV file with sensor data for batch predictions
+    CSV Format: distance,temperature,node_id (optional)
+    """
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.replace("Bearer ", "")
+    payload = verify_token(token)
+    user_id = int(payload.get("sub"))
+    
+    try:
+        # Read CSV file
+        contents = await file.read()
+        text = contents.decode('utf-8')
+        reader = csv.DictReader(io.StringIO(text))
+        
+        rows = list(reader)
+        total_rows = len(rows)
+        processed_rows = 0
+        errors = []
+        predictions_list = []
+        
+        conn = get_connection()
+        cur = conn.cursor()
+        
+        for idx, row in enumerate(rows):
+            try:
+                # Extract values
+                distance = float(row.get('distance', 0))
+                temperature = float(row.get('temperature', 0))
+                node_id = row.get('node_id', 'NODE_001')
+                
+                # Simple prediction logic (replace with ML model call if needed)
+                # For now, generate mock prediction based on distance
+                if distance < 50:
+                    prediction = "High Water Level"
+                    confidence = 0.92
+                elif distance < 80:
+                    prediction = "Normal Water Level"
+                    confidence = 0.89
+                else:
+                    prediction = "Low Water Level"
+                    confidence = 0.85
+                
+                # Store in database
+                cur.execute("""
+                    INSERT INTO predictions 
+                    (user_id, node_id, distance, temperature, prediction, confidence)
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                    RETURNING id, prediction, confidence
+                """, (user_id, node_id, distance, temperature, prediction, confidence))
+                
+                result = cur.fetchone()
+                processed_rows += 1
+                
+                predictions_list.append({
+                    "id": result[0],
+                    "distance": distance,
+                    "temperature": temperature,
+                    "node_id": node_id,
+                    "prediction": result[1],
+                    "confidence": result[2]
+                })
+                
+            except Exception as e:
+                errors.append(f"Row {idx + 1}: {str(e)}")
+        
+        conn.commit()
+        cur.close()
+        conn.close()
+        
+        return CSVUploadResponse(
+            message=f"Successfully processed {processed_rows} out of {total_rows} rows",
+            total_rows=total_rows,
+            processed_rows=processed_rows,
+            errors=errors,
+            predictions=predictions_list
+        )
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/predictions-history")
+def get_predictions_history(limit: int = 100, authorization: str = None):
+    """Get historical predictions for the user"""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.replace("Bearer ", "")
+    payload = verify_token(token)
+    user_id = int(payload.get("sub"))
+    
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        cur.execute("""
+            SELECT id, node_id, distance, temperature, prediction, confidence, created_at
+            FROM predictions
+            WHERE user_id = %s
+            ORDER BY created_at DESC
+            LIMIT %s
+        """, (user_id, limit))
+        
+        rows = cur.fetchall()
+        predictions = [
+            {
+                "id": row[0],
+                "node_id": row[1],
+                "distance": row[2],
+                "temperature": row[3],
+                "prediction": row[4],
+                "confidence": row[5],
+                "created_at": str(row[6])
+            }
+            for row in rows
+        ]
+        
+        return {"predictions": predictions, "total": len(predictions)}
+        
+    finally:
+        cur.close()
+        conn.close()
+
+# ==============================
+# WEBSOCKET REAL-TIME PREDICTIONS
+# ==============================
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections = []
+    
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+    
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+    
+    async def broadcast(self, message: dict):
+        for connection in self.active_connections:
+            try:
+                await connection.send_json(message)
+            except Exception:
+                # Connection might have closed, skip
+                pass
+
+manager = ConnectionManager()
+
+def send_email_alert(email_to: str, alert_type: str, distance: float, temperature: float):
+    """
+    Send email alert for anomaly detection
+    Note: In production, use proper async email service like SendGrid or AWS SES
+    """
+    # For demo, we'll just log the alert
+    # In production, integrate with email service
+    print(f"Email Alert: {email_to} - {alert_type} (Distance: {distance}cm, Temp: {temperature}°C)")
+    return True
+
+def detect_anomaly(distance: float, temperature: float) -> tuple:
+    """
+    Detect anomalities in sensor data
+    Returns: (is_anomaly, anomaly_type)
+    """
+    anomalies = []
+    
+    # High water level anomaly
+    if distance < 30:
+        anomalies.append("High Water Level Alert")
+    
+    # Low water level anomaly
+    if distance > 90:
+        anomalies.append("Low Water Level Alert")
+    
+    # Extreme temperature anomaly
+    if temperature > 35:
+        anomalies.append("High Temperature Alert")
+    elif temperature < 5:
+        anomalies.append("Low Temperature Alert")
+    
+    return len(anomalies) > 0, anomalies
+
+# ==============================
+# ALERT MANAGEMENT ENDPOINTS
+# ==============================
+class AlertPreferences(BaseModel):
+    email_alerts_enabled: bool = True
+    high_water_alert: bool = True
+    low_water_alert: bool = True
+    temperature_alert: bool = False
+    temperature_threshold: float = 30.0
+
+@app.post("/api/v1/alerts/preferences")
+def set_alert_preferences(prefs: AlertPreferences, authorization: str = None):
+    """Set alert preferences for user"""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.replace("Bearer ", "")
+    payload = verify_token(token)
+    user_id = int(payload.get("sub"))
+    
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        # Check if preferences exist
+        cur.execute("SELECT id FROM alert_preferences WHERE user_id = %s", (user_id,))
+        exists = cur.fetchone()
+        
+        if exists:
+            # Update existing preferences
+            cur.execute("""
+                UPDATE alert_preferences 
+                SET email_alerts_enabled=%s, high_water_alert=%s, 
+                    low_water_alert=%s, temperature_alert=%s, temperature_threshold=%s
+                WHERE user_id=%s
+            """, (prefs.email_alerts_enabled, prefs.high_water_alert, 
+                  prefs.low_water_alert, prefs.temperature_alert, 
+                  prefs.temperature_threshold, user_id))
+        else:
+            # Create new preferences
+            cur.execute("""
+                INSERT INTO alert_preferences 
+                (user_id, email_alerts_enabled, high_water_alert, low_water_alert, temperature_alert, temperature_threshold)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """, (user_id, prefs.email_alerts_enabled, prefs.high_water_alert, 
+                  prefs.low_water_alert, prefs.temperature_alert, prefs.temperature_threshold))
+        
+        conn.commit()
+        return {"message": "Alert preferences updated", "status": "success"}
+        
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cur.close()
+        conn.close()
+
+@app.get("/api/v1/alerts/preferences")
+def get_alert_preferences(authorization: str = None):
+    """Get current alert preferences"""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.replace("Bearer ", "")
+    payload = verify_token(token)
+    user_id = int(payload.get("sub"))
+    
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        cur.execute("""
+            SELECT email_alerts_enabled, high_water_alert, low_water_alert, 
+                   temperature_alert, temperature_threshold
+            FROM alert_preferences WHERE user_id = %s
+        """, (user_id,))
+        
+        result = cur.fetchone()
+        if result:
+            return {
+                "email_alerts_enabled": result[0],
+                "high_water_alert": result[1],
+                "low_water_alert": result[2],
+                "temperature_alert": result[3],
+                "temperature_threshold": result[4]
+            }
+        else:
+            # Return defaults
+            return {
+                "email_alerts_enabled": True,
+                "high_water_alert": True,
+                "low_water_alert": True,
+                "temperature_alert": False,
+                "temperature_threshold": 30.0
+            }
+    finally:
+        cur.close()
+        conn.close()
+
+@app.get("/api/v1/alerts/history")
+def get_alert_history(limit: int = 50, authorization: str = None):
+    """Get alert history for user"""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.replace("Bearer ", "")
+    payload = verify_token(token)
+    user_id = int(payload.get("sub"))
+    
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        cur.execute("""
+            SELECT id, alert_type, distance, temperature, message, sent_at
+            FROM alert_history WHERE user_id = %s
+            ORDER BY sent_at DESC LIMIT %s
+        """, (user_id, limit))
+        
+        rows = cur.fetchall()
+        alerts = [
+            {
+                "id": row[0],
+                "alert_type": row[1],
+                "distance": row[2],
+                "temperature": row[3],
+                "message": row[4],
+                "sent_at": str(row[5])
+            }
+            for row in rows
+        ]
+        
+        return {"alerts": alerts, "total": len(alerts)}
+    finally:
+        cur.close()
+        conn.close()
+
+@app.post("/api/v1/alerts/test")
+def test_alert(authorization: str = None):
+    """Send test alert to user"""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.replace("Bearer ", "")
+    payload = verify_token(token)
+    user_id = int(payload.get("sub"))
+    
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        # Get user email
+        cur.execute("SELECT email FROM users WHERE id = %s", (user_id,))
+        user = cur.fetchone()
+        
+        if user:
+            email = user[0]
+            send_email_alert(email, "Test Alert", 75.0, 22.5)
+            
+            # Log to alert history
+            cur.execute("""
+                INSERT INTO alert_history (user_id, alert_type, distance, temperature, message)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (user_id, "Test Alert", 75.0, 22.5, "This is a test alert"))
+            
+            conn.commit()
+            return {"message": "Test alert sent", "status": "success"}
+        
+        raise HTTPException(status_code=404, detail="User not found")
+        
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cur.close()
+        conn.close()
+
+@app.get("/api/v1/anomaly-check")
+def check_for_anomalies(distance: float, temperature: float, authorization: str = None):
+    """Check if sensor data contains anomalies"""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.replace("Bearer ", "")
+    payload = verify_token(token)
+    user_id = int(payload.get("sub"))
+    
+    # Detect anomalies
+    is_anomaly, anomaly_types = detect_anomaly(distance, temperature)
+    
+    if is_anomaly:
+        conn = get_connection()
+        cur = conn.cursor()
+        
+        try:
+            # Get user email and preferences
+            cur.execute("""
+                SELECT u.email, ap.email_alerts_enabled
+                FROM users u 
+                LEFT JOIN alert_preferences ap ON u.id = ap.user_id
+                WHERE u.id = %s
+            """, (user_id,))
+            
+            result = cur.fetchone()
+            if result:
+                email_enabled = result[1] if result[1] is not None else True
+                
+                if email_enabled:
+                    send_email_alert(result[0], ", ".join(anomaly_types), distance, temperature)
+                
+                # Log to alert history
+                for anomaly_type in anomaly_types:
+                    cur.execute("""
+                        INSERT INTO alert_history (user_id, alert_type, distance, temperature, message)
+                        VALUES (%s, %s, %s, %s, %s)
+                    """, (user_id, anomaly_type, distance, temperature, f"Anomaly detected: {anomaly_type}"))
+                
+                conn.commit()
+        finally:
+            cur.close()
+            conn.close()
+    
+    return {
+        "is_anomaly": is_anomaly,
+        "anomaly_types": anomaly_types,
+        "distance": distance,
+        "temperature": temperature
+    }
+
+def generate_realtime_prediction():
+    """Generate simulated real-time sensor data and prediction"""
+    distance = round(random.uniform(40, 100), 1)
+    temperature = round(random.uniform(18, 25), 1)
+    
+    if distance < 50:
+        prediction = "High Water Level"
+        confidence = 0.92
+    elif distance < 80:
+        prediction = "Normal Water Level"
+        confidence = 0.89
+    else:
+        prediction = "Low Water Level"
+        confidence = 0.85
+    
+    return {
+        "timestamp": datetime.now().isoformat(),
+        "distance": distance,
+        "temperature": temperature,
+        "prediction": prediction,
+        "confidence": confidence,
+        "node_id": "NODE_001"
+    }
+
+async def predict_realtime_stream():
+    """Continuously send real-time prediction updates"""
+    while True:
+        if manager.active_connections:
+            prediction = generate_realtime_prediction()
+            await manager.broadcast({
+                "type": "prediction",
+                "data": prediction
+            })
+        await asyncio.sleep(5)  # Send new prediction every 5 seconds
+
+@app.websocket("/ws/predictions")
+async def websocket_predictions(websocket: WebSocket):
+    """WebSocket endpoint for real-time predictions"""
+    await manager.connect(websocket)
+    try:
+        while True:
+            # Keep connection alive and wait for any messages
+            data = await websocket.receive_text()
+            # Echo back acknowledgment
+            await websocket.send_json({
+                "type": "ack",
+                "message": "Connected to real-time predictions stream"
+            })
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+    except Exception as e:
+        manager.disconnect(websocket)
+
+# Start background task for real-time streaming
+@app.on_event("startup")
+async def startup_event():
+    """Start background tasks on app startup"""
+    asyncio.create_task(predict_realtime_stream())
+
 def predict_water_activity(distance, temperature, time_features=None):
     """
     Simple prediction model based on water tank distance and temperature.

@@ -1,0 +1,205 @@
+/* Custom Charts Styling */
+
+.custom-chart-container {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 25px;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.custom-chart-container:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.custom-chart-container h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+.chart-description {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.chart-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #999;
+  font-size: 16px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 2px dashed #ddd;
+}
+
+/* Responsive Container */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+}
+
+/* Recharts Customization */
+.custom-chart-container .recharts-wrapper {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.custom-chart-container .recharts-cartesian-axis-tick text {
+  font-size: 12px;
+  fill: #666;
+}
+
+.custom-chart-container .recharts-legend-wrapper {
+  padding-top: 20px !important;
+}
+
+.custom-chart-container .recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.custom-chart-container .recharts-tooltip {
+  background: rgba(0, 0, 0, 0.8) !important;
+  border-radius: 6px;
+  padding: 8px 12px;
+  border: none !important;
+}
+
+.custom-chart-container .recharts-tooltip-label {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.custom-chart-container .recharts-tooltip-item {
+  color: white;
+  font-size: 13px;
+  margin: 2px 0;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .custom-chart-container {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .custom-chart-container:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .custom-chart-container h3 {
+  color: var(--light-gray);
+}
+
+[data-theme="dark"] .chart-description {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="dark"] .chart-placeholder {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="dark"] .custom-chart-container .recharts-cartesian-axis-tick text {
+  fill: rgba(255, 255, 255, 0.6);
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-chart-container {
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .custom-chart-container h3 {
+    font-size: 16px;
+  }
+
+  .chart-description {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-chart-container {
+    padding: 12px;
+    margin: 10px 0;
+  }
+
+  .custom-chart-container h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .chart-description {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  .chart-placeholder {
+    height: 200px;
+    font-size: 14px;
+  }
+}
+
+/* Animation */
+@keyframes chartSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-chart-container {
+  animation: chartSlideIn 0.4s ease-out;
+}
+
+/* Chart Type Specific Styling */
+.scatter-chart-info {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 15px;
+  padding: 15px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.scatter-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scatter-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+[data-theme="dark"] .scatter-chart-info {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.7);
+}

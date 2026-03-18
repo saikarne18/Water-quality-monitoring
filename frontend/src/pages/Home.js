@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import config from '../config';
@@ -18,6 +19,7 @@ const Home = () => {
   const [selectedTimeRange, setSelectedTimeRange] = useState('all');
   const [customFromDate, setCustomFromDate] = useState('');
   const [customToDate, setCustomToDate] = useState('');
+  const navigate = useNavigate();
 
   // Mapping between node IDs and tank IDs for sensor data
   const getActualTankId = (nodeId) => {
@@ -580,6 +582,65 @@ const Home = () => {
               </LineChart>
             </ResponsiveContainer>
           )}
+        </div>
+      </div>
+
+      {/* Feature Cards Section */}
+      <div className="feature-cards-container">
+        <h2 className="feature-section-title">Quick Access</h2>
+        <div className="feature-cards">
+          <div className="feature-card" onClick={() => navigate('/prediction')}>
+            <div className="feature-icon prediction-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="1"></circle>
+                <path d="M4.22 4.22l2.83 2.83"></path>
+                <path d="M19.78 4.22l-2.83 2.83"></path>
+                <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3>Prediction</h3>
+            <p>Get water quality predictions</p>
+            <div className="feature-arrow">→</div>
+          </div>
+
+          <div className="feature-card" onClick={() => navigate('/model-comparison')}>
+            <div className="feature-icon comparison-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="3" x2="21" y2="3"></line>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="3" y1="15" x2="21" y2="15"></line>
+                <line x1="3" y1="21" x2="21" y2="21"></line>
+                <line x1="9" y1="3" x2="9" y2="21"></line>
+              </svg>
+            </div>
+            <h3>Model Comparison</h3>
+            <p>Compare AI model performances</p>
+            <div className="feature-arrow">→</div>
+          </div>
+
+          <div className="feature-card" onClick={() => navigate('/node-creation')}>
+            <div className="feature-icon node-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
+              </svg>
+            </div>
+            <h3>Node Creation</h3>
+            <p>Create and manage nodes</p>
+            <div className="feature-arrow">→</div>
+          </div>
+
+          <div className="feature-card" onClick={() => navigate('/analytics')}>
+            <div className="feature-icon analytics-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
+            <h3>Analytics</h3>
+            <p>Deep insights & anomaly detection</p>
+            <div className="feature-arrow">→</div>
+          </div>
         </div>
       </div>
     </div>

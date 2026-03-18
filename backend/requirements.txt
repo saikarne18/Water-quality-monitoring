@@ -6,3 +6,10 @@ pydantic
 python-dotenv
 tensorflow
 numpy
+bcrypt
+PyJWT
+python-jose
+python-multipart
+websockets
+aiosmtplib
+email-validator

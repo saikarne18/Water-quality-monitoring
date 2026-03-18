@@ -395,3 +395,70 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== DARK MODE STYLES FOR PREDICTION PAGE ===== */
+[data-theme="dark"] .prediction-page {
+  background: linear-gradient(135deg, #0F1629 0%, #1A2E4A 100%);
+}
+
+[data-theme="dark"] .prediction-header {
+  color: #E2E8F0;
+}
+
+[data-theme="dark"] .prediction-header p {
+  color: #A0AEC0;
+}
+
+[data-theme="dark"] .card {
+  background: #16213E;
+  color: #E2E8F0;
+}
+
+[data-theme="dark"] .card h2 {
+  color: #FF6B9D;
+  border-bottom-color: #FF6B9D;
+}
+
+[data-theme="dark"] .card:hover {
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.25);
+}
+
+[data-theme="dark"] .info-item {
+  background: linear-gradient(135deg, #1A2E4A 0%, #16213E 100%);
+  border-left-color: #00D4FF;
+}
+
+[data-theme="dark"] .info-item label {
+  color: #A0AEC0;
+}
+
+[data-theme="dark"] .form-group label {
+  color: #1DB584;
+}
+
+[data-theme="dark"] .form-group input {
+  background-color: #1A2E4A;
+  border-color: #2A3E5E;
+  color: #E2E8F0;
+}
+
+[data-theme="dark"] .form-group input::placeholder {
+  color: #718096;
+}
+
+[data-theme="dark"] .form-group input:focus {
+  border-color: #FF6B9D;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.3);
+}
+
+[data-theme="dark"] .error-message {
+  background-color: rgba(255, 100, 100, 0.15);
+  color: #FF9999;
+  border-left-color: #FF6B6B;
+}
+
+[data-theme="dark"] .empty-state {
+  background: linear-gradient(135deg, #16213E 0%, #1A2E4A 100%);
+  color: #00D4FF;
+  border-left-color: #1DB584;
+}
