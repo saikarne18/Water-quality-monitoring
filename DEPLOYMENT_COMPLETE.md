@@ -38,7 +38,7 @@ https://water-monitoring-frontend.vercel.app
 
 ### Backend API Server
 ```
-https://water-monitoring-api.onrender.com
+https://water-quality-monitoring-9qmp.onrender.com
 ```
 **Status:** ✅ Live on Render  
 **Runtime:** Python 3.9 with FastAPI  
@@ -364,13 +364,13 @@ College-Research-Affiliate-Program-26/
 
 The backend is already deployed to Render at:
 ```
-https://water-monitoring-api.onrender.com
+https://water-quality-monitoring-9qmp.onrender.com
 ```
 
 **If redeploying:**
 1. Push code to GitHub main branch
 2. Render auto-deploys within 5 minutes
-3. Verify with: `https://water-monitoring-api.onrender.com/api/v1/health`
+3. Verify with: `https://water-quality-monitoring-9qmp.onrender.com/api/v1/health`
 
 ### Frontend Deployment (Already Live ✅)
 
@@ -399,7 +399,7 @@ https://water-monitoring-frontend.vercel.app
 - [ ] No console errors
 
 ### Backend API
-- [ ] https://water-monitoring-api.onrender.com/api/v1/health returns {"status":"healthy"}
+- [ ] https://water-quality-monitoring-9qmp.onrender.com/api/v1/health returns {"status":"healthy"}
 - [ ] Can sign up via API
 - [ ] Can log in via API
 - [ ] Can make predictions
@@ -510,7 +510,7 @@ https://water-monitoring-frontend.vercel.app
 **All systems operational and live!**
 
 - **Frontend:** ✅ https://water-monitoring-frontend.vercel.app
-- **Backend:** ✅ https://water-monitoring-api.onrender.com  
+- **Backend:** ✅ https://water-quality-monitoring-9qmp.onrender.com  
 - **Database:** ✅ Aiven PostgreSQL connected
 - **ML Models:** ✅ 6 models deployed, 92% best accuracy
 - **GitHub:** ✅ https://github.com/saikarne18/Water-quality-monitoring

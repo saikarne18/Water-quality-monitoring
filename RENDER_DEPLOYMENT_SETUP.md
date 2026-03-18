@@ -1,6 +1,6 @@
 # 🚀 Render Backend Deployment Setup
 
-**Backend Service URL:** `https://water-monitoring-api.onrender.com`
+**Backend Service URL:** `https://water-quality-monitoring-9qmp.onrender.com`
 
 ## ✅ Complete Step-by-Step Instructions
 
@@ -68,18 +68,18 @@ PYTHON_VERSION=3.9.13
 - Click **Create Web Service**
 - Wait 5-10 minutes for deployment
 - ✅ Status should show "Live"
-- Copy the URL: `https://water-monitoring-api.onrender.com`
+- Copy the URL: `https://water-quality-monitoring-9qmp.onrender.com`
 
 ### 7️⃣ Verify Deployment
 ```bash
 # Test health endpoint
-curl https://water-monitoring-api.onrender.com/api/v1/health
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 
 # Should return:
 {"status":"healthy"}
 
 # Test model info endpoint
-curl https://water-monitoring-api.onrender.com/api/v1/model-info
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/model-info
 
 # Should return model details with 92% accuracy
 ```

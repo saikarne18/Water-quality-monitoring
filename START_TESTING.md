@@ -42,7 +42,7 @@ https://water-monitoring-frontend.vercel.app
 
 ### 🔌 Backend API
 ```
-https://water-monitoring-api.onrender.com
+https://water-quality-monitoring-9qmp.onrender.com
 ```
 ✅ **Status: LIVE**
 - 20 API endpoints
@@ -53,10 +53,10 @@ https://water-monitoring-api.onrender.com
 ### 📌 Test URLs
 ```
 Health Check:
-https://water-monitoring-api.onrender.com/api/v1/health
+https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 
 Model Info:
-https://water-monitoring-api.onrender.com/api/v1/model-info
+https://water-quality-monitoring-9qmp.onrender.com/api/v1/model-info
 
 GitHub Repository:
 https://github.com/saikarne18/Water-quality-monitoring
@@ -68,7 +68,7 @@ https://github.com/saikarne18/Water-quality-monitoring
 
 ### 1. Check Backend Health (30 seconds)
 ```bash
-curl https://water-monitoring-api.onrender.com/api/v1/health
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 # Should return: {"status":"healthy"}
 ```
 ✅ **If you see the health response, backend is working!**
@@ -156,7 +156,7 @@ Visit: https://water-monitoring-frontend.vercel.app
 - Verify URL: https://water-monitoring-frontend.vercel.app
 
 **If API returns errors:**
-- Test health: https://water-monitoring-api.onrender.com/api/v1/health
+- Test health: https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 - Check backend logs in Render dashboard
 - Verify environment variables are set
 

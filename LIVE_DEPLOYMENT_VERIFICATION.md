@@ -14,7 +14,7 @@ https://water-monitoring-frontend.vercel.app
 
 ### Backend API
 ```
-https://water-monitoring-api.onrender.com
+https://water-quality-monitoring-9qmp.onrender.com
 ```
 
 ### GitHub Repository
@@ -31,7 +31,7 @@ https://github.com/saikarne18/Water-quality-monitoring
 #### 1.1 Health Check
 ```bash
 # Expected: {"status":"healthy"}
-curl https://water-monitoring-api.onrender.com/api/v1/health
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 ```
 - [ ] Returns status: "healthy"
 - [ ] HTTP Status: 200 OK
@@ -40,7 +40,7 @@ curl https://water-monitoring-api.onrender.com/api/v1/health
 #### 1.2 Model Info Endpoint
 ```bash
 # Expected: Model details with 92% accuracy
-curl https://water-monitoring-api.onrender.com/api/v1/model-info
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/model-info
 ```
 - [ ] Returns model information
 - [ ] Shows accuracy statistics
@@ -59,7 +59,7 @@ curl https://water-monitoring-api.onrender.com/api/v1/model-info
 #### 1.4 Authentication Endpoints
 ```bash
 # Test signup
-curl -X POST https://water-monitoring-api.onrender.com/api/v1/signup \
+curl -X POST https://water-quality-monitoring-9qmp.onrender.com/api/v1/signup \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"Test@123"}'
 
@@ -73,7 +73,7 @@ curl -X POST https://water-monitoring-api.onrender.com/api/v1/signup \
 #### 1.5 Prediction Endpoint
 ```bash
 # With valid JWT token (from signup/login)
-curl -X POST https://water-monitoring-api.onrender.com/api/v1/predict \
+curl -X POST https://water-quality-monitoring-9qmp.onrender.com/api/v1/predict \
   -H "Authorization: Bearer <TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{"distance": 100.0, "temperature": 25.5, "model": "LSTM"}'
@@ -86,7 +86,7 @@ curl -X POST https://water-monitoring-api.onrender.com/api/v1/predict \
 #### 1.6 WebSocket Connection
 ```bash
 # Install wscat: npm install -g wscat
-wscat -c wss://water-monitoring-api.onrender.com/ws/predictions
+wscat -c wss://water-quality-monitoring-9qmp.onrender.com/ws/predictions
 # Type: {"model": "LSTM"}
 ```
 - [ ] WebSocket connection establishes
@@ -348,7 +348,7 @@ Test on:
 
 **Deployment Status:** ✅ COMPLETE AND VERIFIED
 
-- **Backend API:** Online at https://water-monitoring-api.onrender.com
+- **Backend API:** Online at https://water-quality-monitoring-9qmp.onrender.com
 - **Frontend:** Online at https://water-monitoring-frontend.vercel.app
 - **GitHub:** https://github.com/saikarne18/Water-quality-monitoring
 - **Database:** Connected and operational

@@ -7,7 +7,7 @@
 ### 1️⃣ Prerequisites
 - GitHub account with repository: `saikarne18/Water-quality-monitoring`
 - Vercel account (free tier available at vercel.com)
-- Backend Render URL ready: `https://water-monitoring-api.onrender.com`
+- Backend Render URL ready: `https://water-quality-monitoring-9qmp.onrender.com`
 - Node.js 16+ installed locally
 
 ### 2️⃣ Prepare Repository
@@ -52,7 +52,7 @@ Before deploying, add:
 **Environment Variables section:**
 ```
 Variable: REACT_APP_API_BASE_URL
-Value: https://water-monitoring-api.onrender.com
+Value: https://water-quality-monitoring-9qmp.onrender.com
 ```
 
 ### 6️⃣ Deploy
@@ -146,7 +146,7 @@ https://water-monitoring-frontend.vercel.app
 This is the only required environment variable:
 ```
 Development: http://127.0.0.1:8000
-Production (Render): https://water-monitoring-api.onrender.com
+Production (Render): https://water-quality-monitoring-9qmp.onrender.com
 ```
 
 The frontend uses this to construct all API endpoints:
@@ -172,7 +172,7 @@ The frontend uses this to construct all API endpoints:
 
 ### Production URLs (After Deployment)
 - **Frontend:** https://water-monitoring-frontend.vercel.app
-- **Backend API:** https://water-monitoring-api.onrender.com
+- **Backend API:** https://water-quality-monitoring-9qmp.onrender.com
 - **GitHub:** https://github.com/saikarne18/Water-quality-monitoring
 
 ### Development URLs (Local testing)

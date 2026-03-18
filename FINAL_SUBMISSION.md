@@ -34,8 +34,8 @@ This project implements a complete **full-stack water quality monitoring system*
 ## 🔗 DEPLOYED URLS
 
 ### Backend API
-- **URL:** `https://water-monitoring-api.onrender.com`
-- **Health Check:** `https://water-monitoring-api.onrender.com/api/v1/health`
+- **URL:** `https://water-quality-monitoring-9qmp.onrender.com`
+- **Health Check:** `https://water-quality-monitoring-9qmp.onrender.com/api/v1/health`
 - **Status:** ✅ Live and Running
 
 ### Frontend Dashboard
@@ -261,7 +261,7 @@ This project implements a complete **full-stack water quality monitoring system*
 | 6 | Dashboard with branding | ✅ | IIITH colors in branding.js |
 | 7 | Prediction page | ✅ | Prediction.js with charts |
 | 8 | Custom charts (2 new types) | ✅ | 4 custom Recharts in CustomCharts.js |
-| 9 | Deployed backend URL | ✅ | https://water-monitoring-api.onrender.com |
+| 9 | Deployed backend URL | ✅ | https://water-quality-monitoring-9qmp.onrender.com |
 | 10 | Deployed frontend URL | ✅ | https://water-monitoring-frontend.vercel.app |
 | 11 | Working deployed screenshot | ✅ | [Screenshots to be added] |
 | 12 | GitHub repository | ✅ | https://github.com/saikarne18/Water-quality-monitoring |
@@ -348,7 +348,7 @@ The system is:
 **Submitted by:** Saishashank Karne  
 **Submission Date:** March 18, 2026  
 **GitHub:** https://github.com/saikarne18/Water-quality-monitoring  
-**Backend:** https://water-monitoring-api.onrender.com  
+**Backend:** https://water-quality-monitoring-9qmp.onrender.com  
 **Frontend:** https://water-monitoring-frontend.vercel.app
 
 ---

@@ -50,7 +50,7 @@ JWT_EXPIRATION_HOURS = 24
 1. Click **"Create Web Service"**
 2. Wait 5-10 minutes for deployment
 3. ✅ When successful, you'll see: **"Your service is live"**
-4. **Copy the URL** (e.g., `https://water-monitoring-api.onrender.com`)
+4. **Copy the URL** (e.g., `https://water-quality-monitoring-9qmp.onrender.com`)
 
 ---
 
@@ -82,7 +82,7 @@ Click **"Environment Variables"** and add:
 
 ```
 Name:  REACT_APP_API_BASE_URL
-Value: https://water-monitoring-api.onrender.com
+Value: https://water-quality-monitoring-9qmp.onrender.com
 ```
 (Replace with your actual Render URL from Step 1.4)
 
@@ -150,7 +150,7 @@ After deployment, verify these work:
 
 After successful deployment, you'll have:
 
-**Backend:** `https://water-monitoring-api.onrender.com`
+**Backend:** `https://water-quality-monitoring-9qmp.onrender.com`
 **Frontend:** `https://water-monitoring-frontend.vercel.app`
 
 ---

@@ -72,7 +72,7 @@ This submission contains the complete implementation of the IoT Water Quality Mo
 ### ✅ TASK 5: Cloud Deployment
 | Platform | Service | Status | URL |
 |----------|---------|--------|-----|
-| Render | FastAPI Backend | ✅ | https://water-monitoring-api.onrender.com |
+| Render | FastAPI Backend | ✅ | https://water-quality-monitoring-9qmp.onrender.com |
 | Vercel | React Frontend | ✅ | https://water-monitoring-frontend.vercel.app |
 | GitHub | Source Control | ✅ | https://github.com/saikarne18/Water-quality-monitoring |
 
@@ -157,7 +157,7 @@ https://water-monitoring-frontend.vercel.app
 
 **Backend API:**
 ```
-https://water-monitoring-api.onrender.com
+https://water-quality-monitoring-9qmp.onrender.com
 ```
 - 20 RESTful endpoints
 - WebSocket support
@@ -167,7 +167,7 @@ https://water-monitoring-api.onrender.com
 
 **Health Check:**
 ```bash
-curl https://water-monitoring-api.onrender.com/api/v1/health
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 # Returns: {"status":"healthy"}
 ```
 
@@ -321,7 +321,7 @@ curl https://water-monitoring-api.onrender.com/api/v1/health
 ### ✅ Deployment Status: OPERATIONAL
 
 - Frontend: https://water-monitoring-frontend.vercel.app ✅
-- Backend: https://water-monitoring-api.onrender.com ✅
+- Backend: https://water-quality-monitoring-9qmp.onrender.com ✅
 - Auto-deployment: Enabled ✅
 - SSL/HTTPS: Active ✅
 - Database: Connected ✅
@@ -354,10 +354,10 @@ All requirements met, all features implemented, all systems operational.
 | Item | Link |
 |------|------|
 | Frontend App | https://water-monitoring-frontend.vercel.app |
-| Backend API | https://water-monitoring-api.onrender.com |
+| Backend API | https://water-quality-monitoring-9qmp.onrender.com |
 | GitHub Repo | https://github.com/saikarne18/Water-quality-monitoring |
-| Health Check | https://water-monitoring-api.onrender.com/api/v1/health |
-| Model Info | https://water-monitoring-api.onrender.com/api/v1/model-info |
+| Health Check | https://water-quality-monitoring-9qmp.onrender.com/api/v1/health |
+| Model Info | https://water-quality-monitoring-9qmp.onrender.com/api/v1/model-info |
 
 ---
 

@@ -48,7 +48,7 @@
   - Status: ✅ All 9 pages deployed
 
 - [x] **Task 5: Cloud Deployment**
-  - Backend: Render (https://water-monitoring-api.onrender.com)
+  - Backend: Render (https://water-quality-monitoring-9qmp.onrender.com)
   - Frontend: Vercel (https://water-monitoring-frontend.vercel.app)
   - GitHub: https://github.com/saikarne18/Water-quality-monitoring
   - Status: ✅ Both live and operational
@@ -80,7 +80,7 @@ https://water-monitoring-frontend.vercel.app
 
 ### Backend API
 ```
-https://water-monitoring-api.onrender.com
+https://water-quality-monitoring-9qmp.onrender.com
 ```
 - FastAPI with Uvicorn
 - Deployed to Render
@@ -91,10 +91,10 @@ https://water-monitoring-api.onrender.com
 
 ```bash
 # Health check
-curl https://water-monitoring-api.onrender.com/api/v1/health
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 
 # Model info
-curl https://water-monitoring-api.onrender.com/api/v1/model-info
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/model-info
 
 # Frontend
 Open: https://water-monitoring-frontend.vercel.app
@@ -152,7 +152,7 @@ Open: https://water-monitoring-frontend.vercel.app
    - Installs Python dependencies
    - Starts FastAPI with Uvicorn
    - Connects to Aiven PostgreSQL
-   - Status: Live at https://water-monitoring-api.onrender.com
+   - Status: Live at https://water-quality-monitoring-9qmp.onrender.com
 
 3. **Frontend Deployment (Vercel)**
    - Vercel pulls latest code
@@ -188,7 +188,7 @@ Open: https://water-monitoring-frontend.vercel.app
                      ▼
 ┌─────────────────────────────────────────────────────────┐
 │              Backend (FastAPI)                          │
-│  https://water-monitoring-api.onrender.com             │
+│  https://water-quality-monitoring-9qmp.onrender.com             │
 │  - 20 API Endpoints                                     │
 │  - JWT Token Auth                                       │
 │  - WebSocket Streaming                                  │
@@ -281,7 +281,7 @@ distance,temperature
 ### 6. Backend Health
 ```bash
 # Test backend endpoint
-curl https://water-monitoring-api.onrender.com/api/v1/health
+curl https://water-quality-monitoring-9qmp.onrender.com/api/v1/health
 
 # Should return:
 {"status": "healthy"}
@@ -358,7 +358,7 @@ All documentation is available in the repository:
 
 ### Production URLs
 - **Frontend:** https://water-monitoring-frontend.vercel.app
-- **Backend:** https://water-monitoring-api.onrender.com
+- **Backend:** https://water-quality-monitoring-9qmp.onrender.com
 - **GitHub:** https://github.com/saikarne18/Water-quality-monitoring
 
 ### Deployment Automation
