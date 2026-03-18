@@ -240,7 +240,7 @@ backend/saved_models/
 
 #### College Branding
 - **File**: `frontend/src/branding.js`
-- College name: IIITH
+- College name: HITAM
 - College colors configured
 - Logo paths configured
 - Footer and social links configured

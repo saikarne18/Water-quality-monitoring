@@ -2,7 +2,7 @@
 
 **Submission Date:** March 18, 2026  
 **Student:** Saishashank Karne  
-**Institution:** IIITH - Indian Institute of Information Technology Hyderabad  
+**Institution:** HITAM - ICFAI Foundation for Higher Education, Hyderabad  
 **Project:** IoT Water Quality Monitoring System with ML Enhancement  
 **Status:** ✅ **FULLY COMPLETE - READY FOR EVALUATION**
 
@@ -383,6 +383,6 @@ All requirements met, all features implemented, all systems operational.
 ---
 
 *Submitted by: Saishashank Karne*  
-*Institution: IIITH - Hyderabad*  
+*Institution: HITAM - Hyderabad*  
 *Date: March 18, 2026*  
 *Status: ✅ COMPLETE*

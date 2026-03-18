@@ -2,7 +2,7 @@
 
 **Date:** March 18, 2026  
 **Student:** Saishashank Karne  
-**Institution:** IIITH - Hyderabad  
+**Institution:** HITAM - Hyderabad  
 **Project:** IoT Water Quality Monitoring System  
 **Status:** ✅ **100% COMPLETE AND DEPLOYED**
 

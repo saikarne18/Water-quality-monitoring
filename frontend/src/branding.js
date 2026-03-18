@@ -3,8 +3,8 @@
 
 export const collegeBranding = {
   // College Information
-  college_name: "IIITH (International Institute of Information Technology, Hyderabad)",
-  college_short_name: "IIITH",
+  college_name: "HITAM (ICFAI Foundation for Higher Education, Hyderabad)",
+  college_short_name: "HITAM",
   college_website: "https://www.iiit.ac.in/",
   
   // Colors (Update with your college colors)
@@ -20,9 +20,9 @@ export const collegeBranding = {
   
   // Logos and Images
   logo: {
-    full: "/iiith-logo-full.png",
-    icon: "/iiith-logo-icon.png",
-    alt_text: "IIITH Logo"
+    full: "/hitam-logo-full.png",
+    icon: "/hitam-logo-icon.png",
+    alt_text: "HITAM Logo"
   },
   
   // Tagline and Description

@@ -327,4 +327,4 @@ The Bidirectional LSTM model achieved a **9% accuracy improvement** over the bas
 
 *Report Generated: March 18, 2026*  
 *Author: AI Development Team*  
-*Project: IIITH Water Quality Monitoring System*
+*Project: HITAM Water Quality Monitoring System*

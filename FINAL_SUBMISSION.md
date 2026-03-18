@@ -1,7 +1,7 @@
 # 📋 FINAL SUBMISSION DOCUMENT
 
 **Student Name:** Saishashank Karne  
-**College:** IIITH (Indian Institute of Information Technology, Hyderabad)  
+**College:** HITAM (ICFAI Foundation for Higher Education, Hyderabad)  
 **Assignment:** IoT Water Tank Monitoring System Enhancement  
 **Date:** March 18, 2026
 
@@ -258,7 +258,7 @@ This project implements a complete **full-stack water quality monitoring system*
 | 3 | ML training log (4+ experiments) | ✅ | 5 models trained and compared |
 | 4 | Training curves | ✅ | Model_Learning_Visualizations.ipynb |
 | 5 | Improved model accuracy | ✅ | 94% accuracy (9% improvement) |
-| 6 | Dashboard with branding | ✅ | IIITH colors in branding.js |
+| 6 | Dashboard with branding | ✅ | HITAM colors in branding.js |
 | 7 | Prediction page | ✅ | Prediction.js with charts |
 | 8 | Custom charts (2 new types) | ✅ | 4 custom Recharts in CustomCharts.js |
 | 9 | Deployed backend URL | ✅ | https://water-quality-monitoring-9qmp.onrender.com |
